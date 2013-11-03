@@ -1,0 +1,31 @@
+require 'rack'
+
+#\ -w -p 8765
+ 
+# The line above containg options
+# passed to rackup utility.
+# (Ruby warnings enabled, request port 8765)
+ 
+# Middlewares below will be added
+# to stack of middlewares
+#use Rack::Reloader, 0
+#use Rack::ContentLength
+ 
+# app can be Class, Instance, or block
+app = proc do |env|
+  req = Rack::Request.new(env)
+  res = Rack::Response.new
+
+  res.write("You GET me!") if req.get?
+  res['Content-Type'] = 'text/plain'
+ 
+  res.finish
+
+  #[ 200,
+   # {'Content-Type' => 'text/html'},
+    #["Hello"]
+  #]
+end
+ 
+# finalize configuration by 'running' our app
+run app
